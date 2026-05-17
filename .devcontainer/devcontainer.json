@@ -1,0 +1,9 @@
+{
+    "name": "Python CLI Dev",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "extensions": [
+        "ms-python.python"
+    ]
+}
