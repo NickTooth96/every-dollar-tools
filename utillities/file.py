@@ -1,4 +1,5 @@
 import csv
+import wget
 from pypdf import PdfReader
 
 def pdf_to_text(pdf_path, txt_path):
@@ -82,3 +83,12 @@ def make_budget_file_csv(txt_path, csv_path):
         writer.writerow(["Category", "Amount"])  # Write header
         for row in data:
             writer.writerow(row)  # Write each row
+
+
+
+def grab_pdf_from_url(url, output_path):
+    try:
+        wget.download(url, output_path)
+        print(f"PDF downloaded successfully from {url} to {output_path}")
+    except Exception as e:
+        print(f"Error downloading PDF: {e}")
