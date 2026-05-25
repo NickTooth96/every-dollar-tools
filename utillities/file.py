@@ -2,6 +2,24 @@ import csv
 import wget
 from pypdf import PdfReader
 
+
+def is_catagory(line) -> bool:
+    temp_line = line.strip().lower()
+    if "$" in temp_line:
+        return False
+    if "everydollar" in temp_line:
+        return False
+    if any(char.isdigit() for char in temp_line):
+        return False
+    if "favorites" in temp_line:
+        return False
+    return True
+
+def parse_catagory(line: str) -> str:
+    return line.strip().split()[0].replace(" ", "-")
+
+### Void Functions ###
+
 def pdf_to_text(pdf_path, txt_path):
     # Load the PDF file
     reader = PdfReader(pdf_path)
@@ -22,9 +40,14 @@ def clean_text_file(txt_path):
         lines = f.readlines()
 
     cleaned_lines = []
+    current_category = None
     for line in lines:
         # Remove leading/trailing whitespace and skip empty lines
         cleaned_line = line.strip()
+        if is_catagory(cleaned_line):
+            if parse_catagory(cleaned_line) != current_category:
+                current_category = parse_catagory(cleaned_line)
+            continue
         if cleaned_line.startswith("Page "):
             continue  # Skip page number lines
         if cleaned_line.startswith("$"):
@@ -38,7 +61,7 @@ def clean_text_file(txt_path):
         for x in cleaned_line.split(" "):
             if x.startswith(","):
                 cleaned_line = cleaned_line.replace(" ,", "")  # Remove commas from the line
-        
+        cleaned_line = f"{current_category} {cleaned_line}"  # Prepend the current category to the line
         # write back the cleaned line to the the list of cleaned lines if it is not empty
         if cleaned_line:
             cleaned_lines.append(cleaned_line)
@@ -54,9 +77,9 @@ def make_budget_file_csv(txt_path, csv_path):
     data = []
     for line in lines:
         parts = line.split()
-        # print(parts)
         if "-" in parts:
             parts = [x for x in parts if x != '-']
+        group = parts.pop(0) # Assuming the group is the first part
         amount = parts[-2]  # Assuming the amount is the second to last part
         if len(parts) <= 5:
             category = " ".join(parts[:-2]).replace(" ", "-").strip()  # Remove any dollar signs and extra whitespace
@@ -64,7 +87,7 @@ def make_budget_file_csv(txt_path, csv_path):
             for x in parts:
                 if "due" in x.lower():
                     index = parts.index(x)
-                    # replacae the part with due with the same thing minus "due" and remove  the next two parts after it
+                    # replacae the part with due with the same thing minus "due" and remove the next two parts after it
                     parts[index] = parts[index].replace("Due", "").strip()
                     del parts[index+1:index+3]
             category = " ".join(parts[:-2]).replace(" ", "-").strip()
@@ -75,15 +98,14 @@ def make_budget_file_csv(txt_path, csv_path):
             temp_amount = amount.split("$")
             amount = f"${temp_amount[1]}"
             category += f"-{temp_amount[0].strip()}"
-        data.append((category, amount))
+        data.append((group, category, amount))
 
     # Write the data to a CSV file
     with open(csv_path, "w", encoding="utf-8", newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(["Category", "Amount"])  # Write header
+        writer.writerow(["Group", "Category", "Amount"])  # Write header
         for row in data:
             writer.writerow(row)  # Write each row
-
 
 
 def grab_pdf_from_url(url, output_path):
