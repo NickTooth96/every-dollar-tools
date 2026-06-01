@@ -9,6 +9,7 @@ parser = argparse.ArgumentParser(description='Every Dollar Tools')
 parser.add_argument('--transaction-file', type=str, help='Path to the input file (CSV format)')
 parser.add_argument('--budget-file', type=str, help='Path to the monthly budget PDF file')
 parser.add_argument('--plan-transfers', action='store_true', help='Plan transfers based on the budget and transactions')
+parser.add_argument('--checking-balance', type=str, help='Current check balance')
 
 args = parser.parse_args()
 
@@ -29,12 +30,17 @@ if args.transaction_file:
 if args.budget_file:
     budget_df = create_dataframe_from_csv(f"output/{basename}.csv")
 
+if args.checking_balance:
+    checking_balance = float(args.checking_balance)
+else:
+    checking_balance = float(0.00)
+
 if args.plan_transfers:
     if not args.budget_file:
         print("The --budget-file argument is required to plan transfers.")
         sys.exit(1)
     else:
         if args.transaction_file:
-            planned_transfers = plan_transfers(budget_df, transaction_df)
+            planned_transfers = plan_transfers(budget_df, transaction_df, checking_balance)
         else:
-            planned_transfers = plan_transfers(budget_df)
+            planned_transfers = plan_transfers(budget_df, checking_balance=checking_balance)

@@ -63,7 +63,7 @@ def make_printer_friendly(df):
     for index, row in df.iterrows():
         print(f"{row['Group']} -> {row['Category']}: {row['Amount']} from {row['From Account']}")
 
-def plan_transfers(budget_df, transactions_df=None) -> dict:
+def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> dict:
     budget_df["amount_float"] = budget_df["Amount"].apply(lambda x: float(x.replace("$", "").replace(",", "")))
     budget_df["from-account"] = budget_df.apply(assign_from_account, axis=1)
     if transactions_df is not None:
@@ -89,7 +89,9 @@ def plan_transfers(budget_df, transactions_df=None) -> dict:
             account_totals[account] += amount
         else:
             account_totals[account] = amount
-
+            
+    account_totals["checking"] -= checking_balance
+    
     print(account_totals) if DEBUG else None
     planned_transfers = {}
         
