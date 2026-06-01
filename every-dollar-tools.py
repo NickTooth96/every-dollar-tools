@@ -15,13 +15,15 @@ args = parser.parse_args()
 
 if args.budget_file:
     filepath = os.path.expanduser(args.budget_file)
-    basename, ext = os.path.splitext(filepath)
+    basename = os.path.splitext(os.path.basename(filepath))[0]
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
 
-    pdf_to_text(args.budget_file, f"output/{basename}.txt")
-    clean_text_file(f"output/{basename}.txt")
-    make_budget_file_csv(f"output/{basename}.txt.new", f"output/{basename}.csv")
-    os.remove(f"output/{basename}.txt")
-    os.remove(f"output/{basename}.txt.new")
+    pdf_to_text(filepath, os.path.join(output_dir, f"{basename}.txt"))
+    clean_text_file(os.path.join(output_dir, f"{basename}.txt"))
+    make_budget_file_csv(os.path.join(output_dir, f"{basename}.txt.new"), os.path.join(output_dir, f"{basename}.csv"))
+    os.remove(os.path.join(output_dir, f"{basename}.txt"))
+    os.remove(os.path.join(output_dir, f"{basename}.txt.new"))
 
 # Check if the --file argument is provided and read the data from the specified file into a DataFrame
 if args.transaction_file:
