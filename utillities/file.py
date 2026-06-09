@@ -81,6 +81,7 @@ def make_budget_file_csv(txt_path, csv_path):
             parts = [x for x in parts if x != '-']
         group = parts.pop(0) # Assuming the group is the first part
         amount = parts[-2]  # Assuming the amount is the second to last part
+        remaining = parts[-1]  # Assuming the remaining is the last part
         if len(parts) <= 5:
             category = " ".join(parts[:-2]).replace(" ", "-").strip()  # Remove any dollar signs and extra whitespace
         else:
@@ -98,12 +99,12 @@ def make_budget_file_csv(txt_path, csv_path):
             temp_amount = amount.split("$")
             amount = f"${temp_amount[1]}"
             category += f"-{temp_amount[0].strip()}"
-        data.append((group, category, amount))
+        data.append((group, category, amount, remaining))
 
     # Write the data to a CSV file
     with open(csv_path, "w", encoding="utf-8", newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(["Group", "Category", "Amount"])  # Write header
+        writer.writerow(["Group", "Category", "Amount", "Remaining"])  # Write header
         for row in data:
             writer.writerow(row)  # Write each row
 
