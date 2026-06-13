@@ -54,4 +54,4 @@ if args.plan_transfers:
 
 if args.audit:
     audit_result = audit_account_balance(budget_df, args.audit)
-    print(f"Balance in [{args.audit}]: ${audit_result:.2f}")
+    print(f"Balance in [{args.audit}] (with buffer): ${audit_result:.2f}")
