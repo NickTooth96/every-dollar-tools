@@ -1,22 +1,10 @@
 import csv
 import wget
 from pypdf import PdfReader
+from utillities.utillities import is_catagory, parse_catagory
 
 
-def is_catagory(line) -> bool:
-    temp_line = line.strip().lower()
-    if "$" in temp_line:
-        return False
-    if "everydollar" in temp_line:
-        return False
-    if any(char.isdigit() for char in temp_line):
-        return False
-    if "favorites" in temp_line:
-        return False
-    return True
 
-def parse_catagory(line: str) -> str:
-    return line.strip().split()[0].replace(" ", "-")
 
 ### Void Functions ###
 

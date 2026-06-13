@@ -7,6 +7,24 @@ ACCOUNT_ZERO = float(1000.00)
 ACCOUNT_MAP = json.load(open("utillities/account-map.json", "r"))
 ACCOUNTS = ACCOUNT_MAP.keys()
 
+def is_catagory(line) -> bool:
+    temp_line = line.strip().lower()
+    if "$" in temp_line:
+        return False
+    if "everydollar" in temp_line:
+        return False
+    if any(char.isdigit() for char in temp_line):
+        return False
+    if "favorites" in temp_line:
+        return False
+    return True
+
+def parse_catagory(line: str) -> str:
+    return line.strip().split()[0].replace(" ", "-")
+
+def make_title_friendly(string) -> str:
+    return string.replace("-", " ").title()
+
 def assign_from_account(row) -> str:
     '''This function takes a row from the budget dataframe and checks the group and category against the account map to determine which account the transfer should be made from. It returns the account name as a string.'''
     check_group = row["Group"].lower()

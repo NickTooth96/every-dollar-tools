@@ -1,6 +1,7 @@
 import json
 import sys
 import pandas as pd
+from utillities.utillities import make_title_friendly
 
 DEBUG = False
 BASE_ACCOUNT = "Staging Ground"
@@ -16,11 +17,6 @@ def create_dataframe_from_csv(csv_path) -> pd.DataFrame:
     except Exception as e:
         print(f"Error loading file: {e}")
         sys.exit(1)
-        
-def make_title_friendly(string) -> str:
-    return string.replace("-", " ").title()
-
-
 
 def calculate_total_spent(df) -> dict:
     total_spent = {}
