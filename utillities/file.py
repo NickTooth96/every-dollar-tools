@@ -5,9 +5,6 @@ from utillities.utillities import is_catagory, parse_catagory
 
 
 
-
-### Void Functions ###
-
 def pdf_to_text(pdf_path, txt_path):
     # Load the PDF file
     reader = PdfReader(pdf_path)

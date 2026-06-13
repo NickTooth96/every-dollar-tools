@@ -1,11 +1,16 @@
 import json
 
 
-DEBUG = False
-ACCOUNT_ZERO = float(1000.00)
+class Settings:
+    
+    def __init__(self):
+        settings = json.load(open("utillities/settings.json", "r"))
+        self.DEBUG = settings.get("DEBUG", False)
+        self.ACCOUNT_ZERO = settings.get("ACCOUNT_ZERO", 0.00)
+        self.BASE_ACCOUNT = settings.get("BASE_ACCOUNT", "")
+        self.ACCOUNT_MAP = settings.get("ACCOUNT_MAP", {})
+        self.ACCOUNTS = self.ACCOUNT_MAP.keys()
 
-ACCOUNT_MAP = json.load(open("utillities/account-map.json", "r"))
-ACCOUNTS = ACCOUNT_MAP.keys()
 
 def is_catagory(line) -> bool:
     temp_line = line.strip().lower()
@@ -36,20 +41,20 @@ def assign_from_account(row) -> str:
     #               "category2" ]
     #        }
     #    }
-    for account, group_catagories in ACCOUNT_MAP.items():
-        print(f"Account: {account} group_catagories: {group_catagories}") if DEBUG else None
+    for account, group_catagories in Settings().ACCOUNT_MAP.items():
+        print(f"Account: {account} group_catagories: {group_catagories}") if Settings().DEBUG else None
         for group, catagories in group_catagories.items():
-            print(f"Group: {group} catagories: {catagories}") if DEBUG else None
+            print(f"Group: {group} catagories: {catagories}") if Settings().DEBUG else None
             if check_group == group.lower():
-                print(f"!!! Group match found: {group}") if DEBUG else None
+                print(f"!!! Group match found: {group}") if Settings().DEBUG else None
                 for catagory in catagories:
                     if check_catagory == catagory.lower():
-                        print(f"!!! Category match found: {catagory}") if DEBUG else None
+                        print(f"!!! Category match found: {catagory}") if Settings().DEBUG else None
                         return account        
     return "None"
 
 def validate_account(account_name):
-    return account_name.lower() in ACCOUNTS
+    return account_name.lower() in Settings().ACCOUNTS
 
 def audit_account_balance(budget_df, account_to_audit: str) -> float:
     if not validate_account(account_to_audit):
@@ -58,5 +63,5 @@ def audit_account_balance(budget_df, account_to_audit: str) -> float:
 
     budget_df[f"remaining-in-{account_to_audit}"] = budget_df.apply(lambda row: float(row["Remaining"].replace("$", "").replace(",", "")) if row["from-account"].lower() == account_to_audit.lower() else 0.00, axis=1)
     
-    total_remaining = budget_df[f"remaining-in-{account_to_audit}"].sum() + ACCOUNT_ZERO
+    total_remaining = budget_df[f"remaining-in-{account_to_audit}"].sum() + Settings().ACCOUNT_ZERO
     return total_remaining

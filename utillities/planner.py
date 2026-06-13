@@ -1,18 +1,13 @@
 import json
 import sys
 import pandas as pd
-from utillities.utillities import make_title_friendly
+from utillities.utillities import make_title_friendly, Settings
 
-DEBUG = False
-BASE_ACCOUNT = "Staging Ground"
-
-account_map = json.load(open("utillities/account-map.json", "r"))
-accounts = account_map.keys()
 
 def create_dataframe_from_csv(csv_path) -> pd.DataFrame:
     try:
         df = pd.read_csv(csv_path)
-        print(f"Data loaded successfully from {csv_path}") if DEBUG else None
+        print(f"Data loaded successfully from {csv_path}") if Settings().DEBUG else None
         return df
     except Exception as e:
         print(f"Error loading file: {e}")
@@ -53,7 +48,7 @@ def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> di
     
     
     sum_amounts = budget_df.groupby("from-account")["amount_float"].sum()
-    print(sum_amounts) if DEBUG else None
+    print(sum_amounts) if Settings().DEBUG else None
     
     account_totals = {}
     for index, row in budget_df.iterrows():
@@ -66,14 +61,14 @@ def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> di
             
     account_totals["checking"] -= checking_balance
     
-    print(account_totals) if DEBUG else None
+    print(account_totals) if Settings().DEBUG else None
     planned_transfers = {}
         
     for account, total in account_totals.items():
         if account != "None":
             if account == "cash":
-                print(f"Withdraw from [{BASE_ACCOUNT}]: ${total:.2f}")
+                print(f"Withdraw from [{Settings().BASE_ACCOUNT}]: ${total:.2f}")
             else:
-                print(f"Transfer from [{BASE_ACCOUNT}] to [{make_title_friendly(account)}]: ${total:.2f}")
+                print(f"Transfer from [{Settings().BASE_ACCOUNT}] to [{make_title_friendly(account)}]: ${total:.2f}")
                 
     return planned_transfers
