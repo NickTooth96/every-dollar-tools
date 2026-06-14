@@ -1,15 +1,4 @@
-import json
-
-
-class Settings:
-    
-    def __init__(self):
-        settings = json.load(open("utillities/settings.json", "r"))
-        self.DEBUG = settings.get("DEBUG", False)
-        self.ACCOUNT_ZERO = settings.get("ACCOUNT_ZERO", 0.00)
-        self.BASE_ACCOUNT = settings.get("BASE_ACCOUNT", "")
-        self.ACCOUNT_MAP = settings.get("ACCOUNT_MAP", {})
-        self.ACCOUNTS = self.ACCOUNT_MAP.keys()
+from utillities.settings import Settings
 
 
 def is_catagory(line) -> bool:

@@ -5,6 +5,8 @@ import pandas as pd
 from utillities.file import pdf_to_text, clean_text_file, make_budget_file_csv
 from utillities.planner import plan_transfers, create_dataframe_from_csv
 from utillities.utillities import audit_account_balance, assign_from_account
+from utillities.settings import Settings
+
 
 parser = argparse.ArgumentParser(description='Every Dollar Tools')
 parser.add_argument('--transaction-file', type=str, help='Path to the input file (CSV format)')
@@ -13,8 +15,13 @@ parser.add_argument('--plan-transfers', action='store_true', help='Plan transfer
 parser.add_argument('--checking-balance', type=str, help='Current check balance')
 # Add more argument --audit with required text value to specify which account to audit for balance
 parser.add_argument('--audit', type=str, help='Specify which account to audit for balance')
+parser.add_argument('--settings', type=str, help='Path to the settings file (JSON format)')
 
 args = parser.parse_args()
+
+if args.settings:
+    Settings().custom_settings(args.settings)
+    print(Settings().__dict__)
 
 if args.budget_file:
     filepath = os.path.expanduser(args.budget_file)
