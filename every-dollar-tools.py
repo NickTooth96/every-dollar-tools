@@ -21,7 +21,7 @@ args = parser.parse_args()
 
 if args.settings:
     Settings().custom_settings(args.settings)
-    print(Settings().__dict__)
+    print(f"Custom settings loaded from {args.settings}") if Settings().DEBUG else None
 
 if args.budget_file:
     filepath = os.path.expanduser(args.budget_file)
