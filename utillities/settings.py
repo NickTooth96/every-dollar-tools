@@ -20,12 +20,15 @@ class Settings:
         except FileNotFoundError:
             settings = {}
         self.DEBUG = settings.get("DEBUG", False)
-        self.LOG_LEVEL = settings.get("LOG_LEVEL", 4)
         self.ACCOUNT_ZERO = settings.get("ACCOUNT_ZERO", 0.00)
         self.BASE_ACCOUNT = settings.get("BASE_ACCOUNT", "")
         self.ACCOUNT_MAP = settings.get("ACCOUNT_MAP", {})
         self.ACCOUNTS = {k.lower() for k in self.ACCOUNT_MAP.keys()}
         self.LOG_FILENAME = datetime.now().strftime("%Y%m%d-%s")
+        if self.DEBUG:
+            self.set_log_level(0)
+        else:
+            self.set_log_level(settings.get("LOG_LEVEL", 4))
         self._initialized = True
         
     def set_debug(self, debug_value: bool):
@@ -61,4 +64,7 @@ class Settings:
         self.set_account_zero(custom_settings.get("ACCOUNT_ZERO", self.ACCOUNT_ZERO))
         self.set_base_account(custom_settings.get("BASE_ACCOUNT", self.BASE_ACCOUNT))
         self.set_debug(custom_settings.get("DEBUG", self.DEBUG))
-        self.set_log_level(custom_settings.get("LOG_LEVEL", self.LOG_LEVEL))
+        if self.DEBUG:
+            self.set_log_level(0)
+        else:
+            self.set_log_level(custom_settings.get("LOG_LEVEL", self.LOG_LEVEL))
