@@ -1,7 +1,7 @@
 import csv
 import wget
 from pypdf import PdfReader
-from utillities.utillities import is_catagory, parse_catagory
+from utillities.utillities import Level, is_catagory, log_msg, parse_catagory
 
 
 
@@ -97,6 +97,6 @@ def make_budget_file_csv(txt_path, csv_path):
 def grab_pdf_from_url(url, output_path):
     try:
         wget.download(url, output_path)
-        print(f"PDF downloaded successfully from {url} to {output_path}")
+        log_msg(f"PDF downloaded successfully from {url} to {output_path}", Level.INFO)
     except Exception as e:
-        print(f"Error downloading PDF: {e}")
+        log_msg(f"Error downloading PDF: {e}", Level.ERROR)

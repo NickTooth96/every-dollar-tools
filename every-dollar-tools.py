@@ -3,11 +3,12 @@ import sys
 import argparse
 import pandas as pd
 from utillities.file import pdf_to_text, clean_text_file, make_budget_file_csv
+from utillities.logging import file_info
 from utillities.planner import plan_transfers, create_dataframe_from_csv
-from utillities.utillities import audit_account_balance, assign_from_account
+from utillities.utillities import audit_account_balance, assign_from_account, log_msg, Level
 from utillities.settings import Settings
 
-
+    
 parser = argparse.ArgumentParser(description='Every Dollar Tools')
 parser.add_argument('--transaction-file', type=str, help='Path to the input file (CSV format)')
 parser.add_argument('--budget-file', type=str, help='Path to the monthly budget PDF file')
@@ -21,7 +22,8 @@ args = parser.parse_args()
 
 if args.settings:
     Settings().custom_settings(args.settings)
-    print(f"Custom settings loaded from {args.settings}") if Settings().DEBUG else None
+    print(Settings().__dict__)
+    log_msg(f"Custom settings loaded from {args.settings}", Level.INFO, file_info())
 
 if args.budget_file:
     filepath = os.path.expanduser(args.budget_file)
@@ -51,7 +53,7 @@ else:
 
 if args.plan_transfers:
     if not args.budget_file:
-        print("The --budget-file argument is required to plan transfers.")
+        log_msg("The --budget-file argument is required to plan transfers.", Level.DISPLAY)
         sys.exit(1)
     else:
         if args.transaction_file:
@@ -61,4 +63,4 @@ if args.plan_transfers:
 
 if args.audit:
     audit_result = audit_account_balance(budget_df, args.audit)
-    print(f"Balance in [{args.audit}] (with buffer): ${audit_result:.2f}")
+    log_msg(f"Balance in [{args.audit}] (with buffer): ${audit_result:.2f}", Level.DISPLAY)

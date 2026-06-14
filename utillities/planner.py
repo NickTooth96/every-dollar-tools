@@ -1,16 +1,16 @@
 import json
 import sys
 import pandas as pd
-from utillities.utillities import make_title_friendly, Settings
+from utillities.utillities import make_title_friendly, log_msg, Level, Settings
 
 
 def create_dataframe_from_csv(csv_path) -> pd.DataFrame:
     try:
         df = pd.read_csv(csv_path)
-        print(f"Data loaded successfully from {csv_path}") if Settings().DEBUG else None
+        log_msg(f"Data loaded successfully from {csv_path}", Level.INFO)
         return df
     except Exception as e:
-        print(f"Error loading file: {e}")
+        log_msg(f"Error loading file: {e}", Level.ERROR)
         sys.exit(1)
 
 def calculate_total_spent(df) -> dict:
@@ -31,25 +31,25 @@ def calculate_total_spent(df) -> dict:
 def make_printer_friendly(df):
     '''This function takes a dataframe and formats it in a way that is easy to read when printed. It returns a string representation of the dataframe.'''
     for index, row in df.iterrows():
-        print(f"{row['Group']} -> {row['Category']}: {row['Amount']} from {row['From Account']}")
+        log_msg(f"{row['Group']} -> {row['Category']}: {row['Amount']} from {row['From Account']}", Level.INFO)
 
 def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> dict:
 
     if transactions_df is not None:
         transactions_df["Category"] = transactions_df["Item"].apply(lambda x: x)
         calulated_totals = calculate_total_spent(transactions_df)
-        print(calulated_totals)
+        log_msg(f"Calculated totals: {calulated_totals}", Level.INFO)
     
     # for index, row in transactions_df.iterrows():
-    #     print(row.to_dict())
+    #     log_msg(f"Transaction: {row.to_dict()}", Level.INFO)
         
     # for index, row in budget_df.iterrows():
-    #     print(row.to_dict())
-    
-    
+    #     log_msg(f"Budget row: {row.to_dict()}", Level.INFO)
+
+
     sum_amounts = budget_df.groupby("from-account")["amount_float"].sum()
-    print(sum_amounts) if Settings().DEBUG else None
-    
+    log_msg(f"Sum of amounts by account: {sum_amounts}", Level.INFO)
+
     account_totals = {}
     for index, row in budget_df.iterrows():
         account = row['from-account']
@@ -61,14 +61,14 @@ def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> di
             
     account_totals["checking"] -= checking_balance
     
-    print(account_totals) if Settings().DEBUG else None
+    log_msg(f"Account totals: {account_totals}", Level.INFO)
     planned_transfers = {}
         
     for account, total in account_totals.items():
         if account != "None":
             if account == "cash":
-                print(f"Withdraw from [{Settings().BASE_ACCOUNT}]: ${total:.2f}")
+                log_msg(f"Withdraw from [{Settings().BASE_ACCOUNT}]: ${total:.2f}", Level.DISPLAY)
             else:
-                print(f"Transfer from [{Settings().BASE_ACCOUNT}] to [{make_title_friendly(account)}]: ${total:.2f}")
+                log_msg(f"Transfer from [{Settings().BASE_ACCOUNT}] to [{make_title_friendly(account)}]: ${total:.2f}", Level.DISPLAY)
                 
     return planned_transfers
