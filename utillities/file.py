@@ -1,13 +1,14 @@
 import csv
 import wget
 from pypdf import PdfReader
+from utillities.logging import file_info
 from utillities.utillities import Level, is_catagory, log_msg, parse_catagory
-
 
 
 def pdf_to_text(pdf_path, txt_path):
     # Load the PDF file
     reader = PdfReader(pdf_path)
+    log_msg(f"Reading PDF input [{pdf_path}]...", Level.INFO, file_info())
     
     # Extract text from all pages
     full_text = ""
@@ -19,6 +20,7 @@ def pdf_to_text(pdf_path, txt_path):
     # Write to a text file
     with open(txt_path, "w", encoding="utf-8") as f:
         f.write(full_text)
+    log_msg(f"Finished writing to [{txt_path}]", Level.INFO, file_info())
 
 def clean_text_file(txt_path):
     with open(txt_path, "r", encoding="utf-8") as f:
@@ -97,6 +99,6 @@ def make_budget_file_csv(txt_path, csv_path):
 def grab_pdf_from_url(url, output_path):
     try:
         wget.download(url, output_path)
-        log_msg(f"PDF downloaded successfully from {url} to {output_path}", Level.INFO)
+        log_msg(f"PDF downloaded successfully from {url} to {output_path}", Level.INFO, file_info())
     except Exception as e:
-        log_msg(f"Error downloading PDF: {e}", Level.ERROR)
+        log_msg(f"Error downloading PDF: {e}", Level.ERROR, file_info())

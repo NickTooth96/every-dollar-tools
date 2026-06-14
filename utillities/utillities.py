@@ -1,5 +1,5 @@
 from utillities.settings import Settings
-from utillities.logging import Level, log_msg
+from utillities.logging import Level, log_msg, file_info
 
     
 def is_catagory(line) -> bool:
@@ -32,14 +32,14 @@ def assign_from_account(row) -> str:
     #        }
     #    }
     for account, group_catagories in Settings().ACCOUNT_MAP.items():
-        log_msg(f"Account: {account} group_catagories: {group_catagories}", Level.DEBUG)
+        log_msg(f"Account: {account} group_catagories: {group_catagories}", Level.DEBUG, file_info())
         for group, catagories in group_catagories.items():
-            log_msg(f"Group: {group} catagories: {catagories}", Level.DEBUG)
+            log_msg(f"Group: {group} catagories: {catagories}", Level.DEBUG, file_info())
             if check_group == group.lower():
-                log_msg(f"!!! Group match found: {group}", Level.DEBUG)
+                log_msg(f"!!! Group match found: {group}", Level.DEBUG, file_info())
                 for catagory in catagories:
                     if check_catagory == catagory.lower():
-                        log_msg(f"!!! Category match found: {catagory}", Level.DEBUG)
+                        log_msg(f"!!! Category match found: {catagory}", Level.DEBUG, file_info())
                         return account        
     return "None"
 
@@ -48,7 +48,7 @@ def validate_account(account_name):
 
 def audit_account_balance(budget_df, account_to_audit: str) -> float:
     if not validate_account(account_to_audit):
-        log_msg(f"Invalid account specified for audit: {account_to_audit}", Level.INFO)
+        log_msg(f"Invalid account specified for audit: {account_to_audit}", Level.INFO, file_info())
         return None
 
     budget_df[f"remaining-in-{account_to_audit}"] = budget_df.apply(lambda row: float(row["Remaining"].replace("$", "").replace(",", "")) if row["from-account"].lower() == account_to_audit.lower() else 0.00, axis=1)

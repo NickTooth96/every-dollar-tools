@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 
 
@@ -24,6 +25,7 @@ class Settings:
         self.BASE_ACCOUNT = settings.get("BASE_ACCOUNT", "")
         self.ACCOUNT_MAP = settings.get("ACCOUNT_MAP", {})
         self.ACCOUNTS = {k.lower() for k in self.ACCOUNT_MAP.keys()}
+        self.LOG_FILENAME = datetime.now().strftime("%Y%m%d-%s")
         self._initialized = True
         
     def set_debug(self, debug_value: bool):
@@ -46,7 +48,6 @@ class Settings:
         self.ACCOUNTS = {k.lower() for k in self.ACCOUNT_MAP.keys()}
                 
     def custom_settings(self, settings_file_path):
-        # log_msg(f"Loading custom settings from {settings_file_path}", Level.INFO)
         try:
             custom_settings = json.load(open(settings_file_path, "r"))
         except FileNotFoundError:
@@ -56,7 +57,6 @@ class Settings:
             print(f"Invalid JSON in file: {settings_file_path}")
             return
 
-        # log_msg(f"Custom settings loaded: {custom_settings}", Level.INFO)
         self.set_account_map(custom_settings.get("ACCOUNT_MAP", self.ACCOUNT_MAP))
         self.set_account_zero(custom_settings.get("ACCOUNT_ZERO", self.ACCOUNT_ZERO))
         self.set_base_account(custom_settings.get("BASE_ACCOUNT", self.BASE_ACCOUNT))
