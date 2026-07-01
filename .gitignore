@@ -3,3 +3,4 @@
 output/*
 *.pdf
 *.pyc
+user-*
