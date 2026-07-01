@@ -51,7 +51,6 @@ def audit_account_balance(budget_df, account_to_audit: str) -> float:
         log_msg(f"Invalid account specified for audit: {account_to_audit}", Level.INFO, file_info())
         return None
 
-    print (budget_df)
     budget_df[f"remaining-in-{account_to_audit}"] = budget_df.apply(lambda row: float(row[Settings().csv_key_map["Remaining"]]) if row["from-account"].lower() == account_to_audit.lower() else 0.00, axis=1)
     
     total_remaining = budget_df[f"remaining-in-{account_to_audit}"].sum() + Settings().ACCOUNT_ZERO
