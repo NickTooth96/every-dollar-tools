@@ -54,8 +54,9 @@ if args.budget_file:
 if args.budget_csv:
     filepath = os.path.expanduser(args.budget_csv)
     basename = os.path.splitext(os.path.basename(filepath))[0]
-    parse_csv_download(args.budget_csv, f"output/{basename}_parsed.csv")
-    # budget_df = create_dataframe_from_csv(args.budget_csv)
+    parse_csv_download(args.budget_csv, f"output/{basename}.csv")
+    budget_df = create_dataframe_from_csv(f"output/{basename}.csv")
+    print(f"Budget DataFrame:\n{budget_df}")
     # budget_df["amount_float"] = budget_df["Amount"].apply(lambda x: float(x.replace("$", "").replace(",", "")))
     # budget_df["from-account"] = budget_df.apply(assign_from_account, axis=1)
     # log_msg(f'Assigned accounts to items in DataFrame', Level.INFO, file_info())
