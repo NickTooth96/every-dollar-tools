@@ -47,6 +47,7 @@ if args.transaction_file:
         
 if args.budget_file:
     budget_df = create_dataframe_from_csv(f"output/{basename}.csv")
+    print(f"Budget DataFrame:\n{budget_df}")
     budget_df["amount_float"] = budget_df["Amount"].apply(lambda x: float(x.replace("$", "").replace(",", "")))
     budget_df["from-account"] = budget_df.apply(assign_from_account, axis=1)
     log_msg(f'Assigned accounts to items in DataFrame', Level.INFO, file_info())

@@ -84,8 +84,10 @@ def make_budget_file_csv(txt_path, csv_path):
             category = category.replace(":", "").strip()
         if not amount.startswith("$"):
             temp_amount = amount.split("$")
-            amount = f"${temp_amount[1]}"
+            amount = f"{temp_amount[1]}"
             category += f"-{temp_amount[0].strip()}"
+        amount = amount.replace("$", "").strip()  # Remove any dollar signs 
+        remaining = remaining.replace("$", "").strip()  # Remove any dollar signs
         data.append((group, category, amount, remaining))
 
     # Write the data to a CSV file
