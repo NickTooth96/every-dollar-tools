@@ -106,6 +106,8 @@ def grab_pdf_from_url(url, output_path):
 def parse_csv_download(input_csv_path, output_csv_path):
     with open(input_csv_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
+        
+    data = ""
     for line in lines:
         line = line.strip().replace('"', '')  # Remove quotes
         line = line.replace("-", '').replace(" ", "-")  # Remove hyphens and replace spaces with hyphens
@@ -113,4 +115,8 @@ def parse_csv_download(input_csv_path, output_csv_path):
             line = line.replace("--", "-")  # Replace double hyphens with single hyphen
         except:
             pass
+        data += line + "\n"
     
+    with open(output_csv_path, "w", encoding="utf-8") as f:
+        f.write(data)
+    log_msg(f"Finished writing to [{output_csv_path}]", Level.INFO, file_info())
