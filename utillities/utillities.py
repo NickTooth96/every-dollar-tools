@@ -40,7 +40,8 @@ def assign_from_account(row) -> str:
                 for catagory in catagories:
                     if check_catagory == catagory.lower():
                         log_msg(f"!!! Category match found: {catagory}", Level.DEBUG, file_info())
-                        return account        
+                        return account
+    log_msg(f"NO MATCH FOUND for group: [{check_group}] and category: [{check_catagory}]", Level.ERROR, file_info())     
     return "None"
 
 def validate_account(account_name):
