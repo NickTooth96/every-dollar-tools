@@ -20,7 +20,8 @@
         },
         "checking": {
             "giving": [
-                "focus"
+                "focus",
+                "extra"
             ],
             "housing/utilities": [
                 "rent-nichols-+-dimes",
@@ -56,7 +57,7 @@
                 "cigars",
                 "gifts",
                 "guest-entertainment",
-                "coﬀee-with-josh"
+                "coffee-with-josh"
             ],
             "transportation": [
                 "gas",
