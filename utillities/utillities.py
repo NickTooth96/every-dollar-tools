@@ -22,8 +22,8 @@ def make_title_friendly(string) -> str:
 
 def assign_from_account(row) -> str:
     '''This function takes a row from the budget dataframe and checks the group and category against the account map to determine which account the transfer should be made from. It returns the account name as a string.'''
-    check_group = row["Group"].lower()
-    check_catagory = row["Category"].lower()
+    check_group = row[Settings().csv_key_map["Group"]].lower()
+    check_catagory = row[Settings().csv_key_map["Category"]].lower()
     # the account map is a json dictionary structured like this: account_map = {
     #        "Account": {
     #            "Group": [ 

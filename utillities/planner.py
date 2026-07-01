@@ -17,9 +17,9 @@ def create_dataframe_from_csv(csv_path) -> pd.DataFrame:
 def calculate_total_spent(df) -> dict:
     total_spent = {}
     for index, row in df.iterrows():
-        group = row["Group"]
-        category = row["Category"]
-        amount = row["Amount"]
+        group = row[Settings().csv_key_map["Group"]]
+        category = row[Settings().csv_key_map["Category"]]
+        amount = row[Settings().csv_key_map["Amount"]]
         if group not in total_spent:
                 total_spent[group] = {f"{category}": amount}
         else:

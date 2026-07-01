@@ -25,6 +25,7 @@ class Settings:
         self.ACCOUNT_MAP = settings.get("ACCOUNT_MAP", {})
         self.ACCOUNTS = {k.lower() for k in self.ACCOUNT_MAP.keys()}
         self.LOG_FILENAME = datetime.now().strftime("%Y%m%d-%s")
+        self.csv_key_map = settings.get("CSV_KEY_MAP", {})
         if self.DEBUG:
             self.set_log_level(0)
         else:
@@ -49,6 +50,9 @@ class Settings:
     def set_account_map(self, account_map_value: dict):
         self.ACCOUNT_MAP = account_map_value
         self.ACCOUNTS = {k.lower() for k in self.ACCOUNT_MAP.keys()}
+    
+    def set_csv_key_map(self, csv_key_map_value: dict):
+        self.csv_key_map = csv_key_map_value
                 
     def custom_settings(self, settings_file_path):
         try:
