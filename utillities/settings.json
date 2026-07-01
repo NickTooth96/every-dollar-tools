@@ -2,6 +2,12 @@
     "DEBUG": false,
     "ACCOUNT_ZERO": 1000.00,
     "BASE_ACCOUNT": "Staging Ground",
+    "CSV_KEY_MAP": {
+        "Group": "Group",
+        "Category": "Category",
+        "Amount": "Amount",
+        "Remaining": "Remaining"
+    },
     "ACCOUNT_MAP": {
         "cash": {
             "giving": [

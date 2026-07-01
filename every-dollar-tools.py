@@ -47,17 +47,22 @@ if args.transaction_file:
         
 if args.budget_file:
     budget_df = create_dataframe_from_csv(f"output/{basename}.csv")
-    print(f"Budget DataFrame:\n{budget_df}")
-    budget_df["amount_float"] = budget_df["Amount"].apply(lambda x: float(x.replace("$", "").replace(",", "")))
+    budget_df["amount_float"] = budget_df[Settings().csv_key_map["Amount"]].apply(lambda x: float(x.replace("$", "").replace(",", "")))
     budget_df["from-account"] = budget_df.apply(assign_from_account, axis=1)
     log_msg(f'Assigned accounts to items in DataFrame', Level.INFO, file_info())
 
 if args.budget_csv:
     filepath = os.path.expanduser(args.budget_csv)
     basename = os.path.splitext(os.path.basename(filepath))[0]
+    Settings().set_csv_key_map({
+        "Group": "Group",
+        "Category": "Item",
+        "Amount": "Planned",
+        "Remaining": "Remaining"
+    })
     parse_csv_download(args.budget_csv, f"output/{basename}.csv")
     budget_df = create_dataframe_from_csv(f"output/{basename}.csv")
-    budget_df["amount_float"] = budget_df["Amount"].apply(lambda x: float(x.replace("$", "").replace(",", "")))
+    budget_df["amount_float"] = budget_df[Settings().csv_key_map["Amount"]].apply(lambda x: float(x))
     budget_df["from-account"] = budget_df.apply(assign_from_account, axis=1)
     log_msg(f'Assigned accounts to items in DataFrame', Level.INFO, file_info())
     
@@ -69,7 +74,7 @@ else:
     log_msg(f"Using default Checking account balance [${float(0.00)}]", Level.INFO, file_info())
 
 if args.plan_transfers:
-    if not args.budget_file:
+    if not args.budget_file and not args.budget_csv :
         log_msg("The --budget-file argument is required to plan transfers.", Level.ERROR, file_info())
         sys.exit(1)
     else:
