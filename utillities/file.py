@@ -102,3 +102,15 @@ def grab_pdf_from_url(url, output_path):
         log_msg(f"PDF downloaded successfully from {url} to {output_path}", Level.INFO, file_info())
     except Exception as e:
         log_msg(f"Error downloading PDF: {e}", Level.ERROR, file_info())
+        
+def parse_csv_download(input_csv_path, output_csv_path):
+    with open(input_csv_path, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+    for line in lines:
+        line = line.strip().replace('"', '')  # Remove quotes
+        line = line.replace("-", '').replace(" ", "-")  # Remove hyphens and replace spaces with hyphens
+        try: 
+            line = line.replace("--", "-")  # Replace double hyphens with single hyphen
+        except:
+            pass
+    
