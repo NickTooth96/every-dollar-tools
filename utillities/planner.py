@@ -66,8 +66,10 @@ def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> di
     for account, total in account_totals.items():
         if account != "None":
             if account == "cash":
+                planned_transfers[account] = total
                 log_msg(f"Withdraw from [{Settings().BASE_ACCOUNT}]: ${total:.2f}", Level.DISPLAY, file_info())
             else:
+                planned_transfers[account] = total
                 log_msg(f"Transfer from [{Settings().BASE_ACCOUNT}] to [{make_title_friendly(account)}]: ${total:.2f}", Level.DISPLAY, file_info())
     log_variable("planned_transfers", planned_transfers, Level.DEBUG, file_info())     
     return planned_transfers
