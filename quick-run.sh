@@ -20,4 +20,4 @@ fi
 
 docker build -t every-dollar-tools -f .devcontainer/Dockerfile .
 clear
-docker run --rm -v /Users/nicktoothaker/projects/every-dollar-tools:/workspace -v /Users/nicktoothaker/Downloads/"${BUDGET_PATH}":/downloads/budget.pdf -w /workspace every-dollar-tools python every-dollar-tools.py --budget-file /downloads/budget.pdf --plan-transfers --checking-balance "${CHECKING_BALANCE}" 
+docker run --rm -v /Users/nicktoothaker/projects/every-dollar-tools:/workspace -v "${BUDGET_PATH}":/downloads/budget.pdf -w /workspace every-dollar-tools python every-dollar-tools.py --budget-csv /downloads/budget.pdf --plan-transfers --checking-balance "${CHECKING_BALANCE}" 
