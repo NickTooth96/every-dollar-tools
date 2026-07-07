@@ -16,7 +16,7 @@ class Settings:
         if getattr(self, "_initialized", False):
             return
         try:
-            settings = json.load(open("utillities/settings.json", "r"))
+            settings = json.load(open("resources/settings.json", "r"))
         except FileNotFoundError:
             settings = {}
         self.DEBUG = settings.get("DEBUG", False)
