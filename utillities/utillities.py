@@ -5,13 +5,18 @@ from utillities.logging import Level, log_msg, log_variable, file_info
 def is_catagory(line) -> bool:
     temp_line = line.strip().lower()
     if "$" in temp_line:
+        log_msg(f"Line contains a dollar sign [NOT A CATAGORY]: {temp_line}", Level.DEBUG, file_info())
         return False
     if "everydollar" in temp_line:
+        log_msg(f"Line contains 'everydollar' [NOT A CATAGORY]: {temp_line}", Level.DEBUG, file_info())
         return False
     if any(char.isdigit() for char in temp_line):
+        log_msg(f"Line contains digits [NOT A CATAGORY]: {temp_line}", Level.DEBUG, file_info())
         return False
     if "favorites" in temp_line:
+        log_msg(f"Line contains 'favorites' [NOT A CATAGORY]: {temp_line}", Level.DEBUG, file_info())
         return False
+    log_msg(f"Line is a catagory: {temp_line}", Level.DEBUG, file_info())
     return True
 
 def parse_catagory(line: str) -> str:
@@ -23,7 +28,10 @@ def make_title_friendly(string) -> str:
 def assign_from_account(row) -> str:
     '''This function takes a row from the budget dataframe and checks the group and category against the account map to determine which account the transfer should be made from. It returns the account name as a string.'''
     check_group = row[Settings().csv_key_map["Group"]].lower()
+    log_variable("check_group", check_group, Level.DEBUG, file_info())
     check_catagory = row[Settings().csv_key_map["Category"]].lower()
+    log_variable("check_catagory", check_catagory, Level.DEBUG, file_info())
+    
     # the account map is a json dictionary structured like this: account_map = {
     #        "Account": {
     #            "Group": [ 
@@ -55,4 +63,5 @@ def audit_account_balance(budget_df, account_to_audit: str) -> float:
     budget_df[f"remaining-in-{account_to_audit}"] = budget_df.apply(lambda row: float(row[Settings().csv_key_map["Remaining"]]) if row["from-account"].lower() == account_to_audit.lower() else 0.00, axis=1)
     
     total_remaining = budget_df[f"remaining-in-{account_to_audit}"].sum() + Settings().ACCOUNT_ZERO
+    log_variable(f"total_remaining_in_{account_to_audit}", total_remaining, Level.INFO, file_info())
     return total_remaining
