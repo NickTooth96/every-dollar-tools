@@ -1,5 +1,5 @@
 from utillities.settings import Settings
-from utillities.logging import Level, log_msg, file_info
+from utillities.logging import Level, log_msg, log_variable, file_info
 
     
 def is_catagory(line) -> bool:
