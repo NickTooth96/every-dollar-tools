@@ -46,3 +46,5 @@ def log_msg(msg, level, file_info: list = [None, None]):
         else:
             print(f"[{timestamp}] [{get_name(level)}] {file}.{line}: {msg}")
         
+def log_variable(var_name, var_value, level, file_info: list = [None, None]):
+    log_msg(f"[SET VARIABLE] {var_name} -> {var_value}", level , file_info)
