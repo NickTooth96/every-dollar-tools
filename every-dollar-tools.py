@@ -47,11 +47,11 @@ if args.budget_file:
 
 if args.transaction_file:
     transaction_df = create_dataframe_from_csv(args.transaction_file)
-    log_variable("transaction_df", transaction_df.shape[0], Level.DEBUG, file_info())
+    log_variable("transaction_df", transaction_df, Level.INFO, file_info())
     
 if args.budget_file:
     budget_df = create_dataframe_from_csv(f"output/{basename}.csv")
-    log_variable("budget_df", budget_df.shape[0], Level.DEBUG, file_info())
+    log_variable("budget_df", budget_df, Level.INFO, file_info())
     
     budget_df["amount_float"] = budget_df[Settings().csv_key_map["Amount"]].apply(lambda x: float(x.replace("$", "").replace(",", "")))
     budget_df["from-account"] = budget_df.apply(assign_from_account, axis=1)
@@ -71,7 +71,7 @@ if args.budget_csv:
     })
     parse_csv_download(args.budget_csv, f"output/{basename}.csv")
     budget_df = create_dataframe_from_csv(f"output/{basename}.csv")
-    log_variable("budget_df", budget_df.shape[0], Level.DEBUG, file_info())
+    log_variable("budget_df", budget_df, Level.INFO, file_info())
     
     budget_df["amount_float"] = budget_df[Settings().csv_key_map["Amount"]].apply(lambda x: float(x))
     budget_df["from-account"] = budget_df.apply(assign_from_account, axis=1)
