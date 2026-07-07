@@ -22,7 +22,8 @@ class Settings:
         self.DEBUG = settings.get("DEBUG", False)
         self.ACCOUNT_ZERO = settings.get("ACCOUNT_ZERO", 0.00)
         self.BASE_ACCOUNT = settings.get("BASE_ACCOUNT", "")
-        self.ACCOUNT_MAP = settings.get("ACCOUNT_MAP", {})
+        # self.ACCOUNT_MAP = settings.get("ACCOUNT_MAP", {})
+        self.ACCOUNT_MAP = json.loads(open(settings.get("ACCOUNT_MAP_PATH", ""), "r").read())
         self.ACCOUNTS = {k.lower() for k in self.ACCOUNT_MAP.keys()}
         self.LOG_FILENAME = datetime.now().strftime("%Y%m%d-%s")
         self.csv_key_map = settings.get("CSV_KEY_MAP", {})
