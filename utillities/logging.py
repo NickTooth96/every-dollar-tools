@@ -38,7 +38,7 @@ def log_msg(msg, level, file_info: list = [None, None]):
     with open(f"output/logs/{Settings().LOG_FILENAME}", "a", encoding="utf-8") as f:
         f.write(f"[{timestamp}] [{get_name(level)}] {file}.{line}: {msg}\n")
     
-    if level == Level.ERROR:
+    if level == Level.ERROR and not Settings().SUPPRESS_ERRORS:
         print(f"[{get_name(level)}] {file}.{line}: {msg}")
 
     if level >= Settings().LOG_LEVEL and not level == Level.ERROR:

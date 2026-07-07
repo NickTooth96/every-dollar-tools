@@ -8,5 +8,6 @@
         "Amount": "Amount",
         "Remaining": "Remaining"
     },
-    "ACCOUNT_MAP_PATH": "resources/account_map.json"
+    "ACCOUNT_MAP_PATH": "resources/account_map.json",
+    "SUPPRESS_ERRORS": true
 }

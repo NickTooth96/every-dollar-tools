@@ -31,6 +31,7 @@ class Settings:
             self.set_log_level(0)
         else:
             self.set_log_level(settings.get("LOG_LEVEL", 4))
+        self.SUPPRESS_ERRORS = settings.get("SUPPRESS_ERRORS", True)
         self._initialized = True
         
     def set_debug(self, debug_value: bool):
@@ -47,6 +48,9 @@ class Settings:
     
     def set_base_account(self, base_account_value: str):
         self.BASE_ACCOUNT = base_account_value
+    
+    def set_suppress_errors(self, suppress_errors_value: bool):
+        self.SUPPRESS_ERRORS = suppress_errors_value
     
     def set_account_map(self, account_map_value: dict):
         self.ACCOUNT_MAP = account_map_value
@@ -73,3 +77,4 @@ class Settings:
             self.set_log_level(0)
         else:
             self.set_log_level(custom_settings.get("LOG_LEVEL", self.LOG_LEVEL))
+        self.set_suppress_errors(custom_settings.get("SUPPRESS_ERRORS", self.SUPPRESS_ERRORS))
