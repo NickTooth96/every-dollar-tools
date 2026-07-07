@@ -69,3 +69,21 @@ def audit_account_balance(budget_df, account_to_audit: str) -> float:
     total_remaining = budget_df[f"remaining-in-{account_to_audit}"].sum() + Settings().ACCOUNT_ZERO
     log_variable(f"total_remaining_in_{account_to_audit}", total_remaining, Level.INFO, file_info())
     return total_remaining
+
+### Display Functions
+
+def display_account_mapping():
+    output = {}
+    for account, group_catagories in Settings().ACCOUNT_MAP.items():
+        for group, catagories in group_catagories.items():
+            for catagory in catagories:
+                if group not in output:
+                    output[group] = {catagory: account}
+                else:
+                    if catagory not in output[group]:
+                        output[group][catagory] = account
+
+    for group, catagories in output.items():
+        print(f"| {group} | ")
+        for catagory, account in catagories.items():
+            print(f"\t| Category: [{catagory}] lives in [{account}] |")

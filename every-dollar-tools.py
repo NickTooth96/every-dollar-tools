@@ -5,7 +5,7 @@ import pandas as pd
 from utillities.file import pdf_to_text, clean_text_file, make_budget_file_csv, parse_csv_download
 from utillities.logging import file_info, initialize_log_file
 from utillities.planner import plan_transfers, create_dataframe_from_csv
-from utillities.utillities import audit_account_balance, assign_from_account, log_msg, log_variable, Level
+from utillities.utillities import audit_account_balance, assign_from_account, display_account_mapping, log_msg, log_variable, Level
 from utillities.settings import Settings
 
 
