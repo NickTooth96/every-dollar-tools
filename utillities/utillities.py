@@ -1,7 +1,8 @@
 from utillities.settings import Settings
 from utillities.logging import Level, log_msg, file_info
 
-    
+### Validation Functions
+   
 def is_catagory(line) -> bool:
     temp_line = line.strip().lower()
     if "$" in temp_line:
@@ -13,6 +14,11 @@ def is_catagory(line) -> bool:
     if "favorites" in temp_line:
         return False
     return True
+
+def validate_account(account_name) -> bool:
+    return account_name.lower() in Settings().ACCOUNTS
+
+### String Manipulation Functions
 
 def parse_catagory(line: str) -> str:
     return line.strip().split()[0].replace(" ", "-")
@@ -44,8 +50,7 @@ def assign_from_account(row) -> str:
     log_msg(f"NO MATCH FOUND for group: [{check_group}] and category: [{check_catagory}]", Level.ERROR, file_info())     
     return "None"
 
-def validate_account(account_name):
-    return account_name.lower() in Settings().ACCOUNTS
+#### Budget Functions
 
 def audit_account_balance(budget_df, account_to_audit: str) -> float:
     if not validate_account(account_to_audit):
