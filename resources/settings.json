@@ -9,5 +9,5 @@
         "Remaining": "Remaining"
     },
     "ACCOUNT_MAP_PATH": "resources/account_map.json",
-    "SUPPRESS_ERRORS": true
+    "SUPPRESS_ERRORS": false
 }
