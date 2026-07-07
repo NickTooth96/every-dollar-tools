@@ -38,7 +38,10 @@ def log_msg(msg, level, file_info: list = [None, None]):
     with open(f"output/logs/{Settings().LOG_FILENAME}", "a", encoding="utf-8") as f:
         f.write(f"[{timestamp}] [{get_name(level)}] {file}.{line}: {msg}\n")
     
-    if level >= Settings().LOG_LEVEL:
+    if level == Level.ERROR:
+        print(f"[{get_name(level)}] {file}.{line}: {msg}")
+
+    if level >= Settings().LOG_LEVEL and not level == Level.ERROR:
         if level == Level.DISPLAY:
             print(f"{msg}")
         elif level == Level.INFO:
@@ -46,3 +49,5 @@ def log_msg(msg, level, file_info: list = [None, None]):
         else:
             print(f"[{timestamp}] [{get_name(level)}] {file}.{line}: {msg}")
         
+def log_variable(var_name, var_value, level, file_info: list = [None, None]):
+    log_msg(f"[SET VARIABLE] {var_name} -> {var_value}", level , file_info)
