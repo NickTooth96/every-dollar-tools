@@ -1,7 +1,8 @@
 {
     "cash": {
         "giving": [
-            "church"
+            "church",
+            "extra"
         ],
         "miscellaneous": [
             "pocket-money-nick",
@@ -10,8 +11,7 @@
     },
     "checking": {
         "giving": [
-            "focus",
-            "extra"
+            "focus"
         ],
         "housing/utilities": [
             "rent-nichols-+-dimes",
