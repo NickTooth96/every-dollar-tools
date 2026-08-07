@@ -1,0 +1,89 @@
+{
+    "needs": {
+        "housing/utilities": [
+            "rent-nichols-+-dimes",
+            "water-american-water",
+            "gas-spire",
+            "electricity-evergy",
+            "internet-optimum",
+            "city-of-st.-joseph-sewer",
+            "phones",
+            "subscriptions"
+        ],
+        "savings": [
+            "medical-expenses"
+        ],
+        "insurance": [
+            "shelter-insurance-home-and-auto",
+            "life-insurance"
+        ],
+        "taxes": [
+            "property-tax",
+            "vehicle-registration",
+            "inspections"
+        ],
+        "transportation": [
+            "gas",
+            "maintenance"
+        ],
+        "health": [
+            "chiropractor"
+        ],
+        "food": [
+            "groceries"
+        ],
+        "miscellaneous": [
+            "health/beauty",
+            "baby-items",
+            "clothing"
+        ]
+    },
+    "wants": {
+        "miscellaneous": [
+            "miscellaneous",
+            "home-goods",
+            "home-improvement",
+            "pocket-money-nick",
+            "pocket-money-rita"
+        ],
+        "food": [
+            "restaurants",
+            "work-food-rita"
+        ],
+        "transportation": [
+            "car-wash"
+        ],
+        "savings": [
+            "franciscan-ware",
+            "electronics",
+            "cast-iron",
+            "family-camp",
+            "religious-art",
+            "vacations"
+        ],
+        "giving": [
+            "focus",
+            "church",
+            "extra"
+        ],
+        "lifestyle": [
+            "date-nights",
+            "cigars",
+            "gifts",
+            "guest-entertainment",
+            "coffee-with-josh"
+        ]
+
+    },
+    "savings": {
+        "savings": [
+            "emergency-fund",
+            "house-fund"
+        ]
+    },
+    "na": {
+        "miscellaneous":[
+            "waiting-expense-report"
+        ]
+    }
+}
