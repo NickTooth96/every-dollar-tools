@@ -58,7 +58,7 @@ def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> di
         log_msg(f"Adding {amount} to {account}: total [{account_totals[account]}]", Level.DEBUG, file_info())
     
     log_variable("account_totals", account_totals, Level.DEBUG, file_info())     
-    account_totals["checking"] -= checking_balance
+    account_totals["checking"] -= (checking_balance - Settings().ACCOUNT_ZERO)
     
     log_msg(f"Account totals: {account_totals}", Level.DEBUG, file_info())
     planned_transfers = {}

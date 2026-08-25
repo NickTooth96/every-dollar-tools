@@ -29,8 +29,11 @@ log_msg("Initialized output and logs directories", Level.INFO, file_info())
 
 if args.settings:
     Settings().custom_settings(args.settings)
-    log_msg(Settings().__dict__, Level.DEBUG, file_info())
     log_msg(f"Custom settings loaded from [{args.settings}]", Level.DISPLAY, file_info())
+    log_msg(Settings().__dict__, Level.DEBUG, file_info())
+else:
+    log_msg(f"No custom settings file provided. Using default settings.", Level.INFO, file_info())
+    log_msg(Settings().__dict__, Level.INFO, file_info())
 
 if args.budget_file:
     filepath = os.path.expanduser(args.budget_file)
