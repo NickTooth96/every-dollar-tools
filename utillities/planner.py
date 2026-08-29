@@ -57,12 +57,17 @@ def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> di
             account_totals[account] = amount
         log_msg(f"Adding {amount} to {account}: total [{account_totals[account]}]", Level.DEBUG, file_info())
     
-    log_variable("account_totals", account_totals, Level.DEBUG, file_info())     
-    account_totals["checking"] -= (checking_balance - Settings().ACCOUNT_ZERO)
+    log_variable("account_totals", account_totals, Level.DEBUG, file_info())  
+    if checking_balance != 0:
+        log_msg(f"Transfer to Checking: {account_totals["checking"]} - ({Settings().ACCOUNT_ZERO} + {checking_balance})", Level.INFO, file_info())
+        account_totals["checking"] -= (checking_balance - Settings().ACCOUNT_ZERO)
+    else:
+        log_msg(f"Transfer to Checking: {account_totals["checking"]}", Level.INFO, file_info())
+        account_totals["checking"]
     
     log_msg(f"Account totals: {account_totals}", Level.DEBUG, file_info())
     planned_transfers = {}
-        
+    
     for account, total in account_totals.items():
         if account != "None":
             if account == "cash":
@@ -71,5 +76,7 @@ def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> di
             else:
                 planned_transfers[account] = total
                 log_msg(f"Transfer from [{Settings().BASE_ACCOUNT}] to [{make_title_friendly(account)}]: ${total:.2f}", Level.DISPLAY, file_info())
-    log_variable("planned_transfers", planned_transfers, Level.DEBUG, file_info())     
+    planned_transfers["Total"] = sum(planned_transfers.values())
+    log_msg(f"Total Money to Move: ${planned_transfers['Total']:.2f}", Level.INFO, file_info())
+    log_variable("planned_transfers", planned_transfers, Level.DEBUG, file_info())   
     return planned_transfers
