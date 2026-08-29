@@ -77,6 +77,6 @@ def plan_transfers(budget_df, transactions_df=None, checking_balance=None) -> di
                 planned_transfers[account] = total
                 log_msg(f"Transfer from [{Settings().BASE_ACCOUNT}] to [{make_title_friendly(account)}]: ${total:.2f}", Level.DISPLAY, file_info())
     planned_transfers["Total"] = sum(planned_transfers.values())
-    log_msg(f"Total Money to Move: ${planned_transfers['Total']:.2f}", Level.INFO, file_info())
+    log_msg(f"Total Money to Move: ${planned_transfers['Total']:.2f}", Level.DISPLAY, file_info())
     log_variable("planned_transfers", planned_transfers, Level.DEBUG, file_info())   
     return planned_transfers
